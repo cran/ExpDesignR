@@ -1,80 +1,27 @@
-#===========================================================
-# Stratified Randomization
-#===========================================================
-
 #' Stratified Randomization
 #'
-#' Generates a randomized allocation schedule within each stratum.
-#'
-#' @param data A data frame containing the study subjects.
-#' @param strata Character vector specifying one or more stratification variables.
-#' @param groups Character vector of treatment groups.
+#' Randomize independently within one or more strata.
+#' @param data Study-subject data frame.
+#' @param strata Character vector of stratification columns.
+#' @param groups Treatment groups.
 #' @param seed Optional random seed.
-#'
-#' @return A tibble containing the original data with an additional
-#' treatment allocation column.
-#'
+#' @param ratio Optional allocation weights.
+#' @return The input data with a `Treatment` column.
 #' @examples
-#' df <- data.frame(
-#'   ID = 1:20,
-#'   Sex = rep(c("Male","Female"), each = 10),
-#'   Age = rep(c("Young","Adult"), times = 10)
-#' )
-#'
-#' stratified_randomization(
-#'   data = df,
-#'   strata = c("Sex"),
-#'   groups = c("Control","Treatment"),
-#'   seed = 123
-#' )
-#'
-#' @importFrom tibble as_tibble
+#' dat <- data.frame(ID = 1:20, Sex = rep(c("M", "F"), each = 10))
+#' stratified_randomization(dat, "Sex", c("Control", "Treatment"), seed = 123)
 #' @export
-
-stratified_randomization <- function(data,
-                                     strata,
-                                     groups,
-                                     seed = NULL){
-  
-  if(!is.null(seed))
-    set.seed(seed)
-  
-  if(!is.data.frame(data))
-    stop("'data' must be a data frame.", call. = FALSE)
-  
-  if(length(groups) < 2)
-    stop("At least two groups are required.", call. = FALSE)
-  
-  if(!all(strata %in% names(data)))
-    stop("One or more strata variables are not present in data.",
-         call. = FALSE)
-  
-  data <- tibble::as_tibble(data)
-  
-  ## Create stratum label
-  stratum <- interaction(
-    data[, strata],
-    drop = TRUE,
-    sep = "_"
-  )
-  
-  allocation <- character(nrow(data))
-  
-  for(level in levels(stratum)){
-    
-    idx <- which(stratum == level)
-    
-    allocation[idx] <- sample(
-      rep(
-        groups,
-        length.out = length(idx)
-      )
-    )
-    
-  }
-  
-  data$Treatment <- allocation
-  
-  data
-  
+stratified_randomization <- function(data, strata, groups, seed = NULL, ratio = NULL) {
+  data <- .validate_data(data); strata <- .validate_strata(data, strata); groups <- .validate_groups(groups); prob <- .validate_ratio(ratio, groups)
+  .with_seed(seed, {
+    stratum <- .make_stratum(data, strata)
+    allocation <- character(nrow(data))
+    for (lev in levels(stratum)) {
+      idx <- which(stratum == lev)
+      allocation[idx] <- sample(groups, length(idx), replace = TRUE, prob = prob)
+    }
+    data$Treatment <- allocation
+    data$Stratum <- as.character(stratum)
+    data
+  })
 }

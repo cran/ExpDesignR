@@ -4,27 +4,23 @@
 \alias{cluster_randomization}
 \title{Cluster Randomization}
 \usage{
-cluster_randomization(clusters, groups, seed = NULL)
+cluster_randomization(clusters, groups, seed = NULL, ratio = NULL)
 }
 \arguments{
-\item{clusters}{Character or numeric vector of cluster IDs.}
+\item{clusters}{Character or numeric vector of unique cluster IDs.}
 
-\item{groups}{Character vector of treatment groups.}
+\item{groups}{Treatment groups.}
 
 \item{seed}{Optional random seed.}
+
+\item{ratio}{Optional allocation weights.}
 }
 \value{
 A tibble containing cluster assignments.
 }
 \description{
-Randomly assigns clusters (e.g., villages, farms, schools,
-hospitals) to treatment groups.
+Randomly assigns intact clusters to treatment groups.
 }
 \examples{
-cluster_randomization(
-  clusters = paste0("Farm_", 1:20),
-  groups = c("Control", "Treatment"),
-  seed = 123
-)
-
+cluster_randomization(paste0("Farm_", 1:20), c("Control", "Treatment"), seed = 123)
 }

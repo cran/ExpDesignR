@@ -4,7 +4,7 @@
 \alias{simple_randomization}
 \title{Simple Randomization}
 \usage{
-simple_randomization(n, groups, seed = NULL)
+simple_randomization(n, groups, seed = NULL, ratio = NULL)
 }
 \arguments{
 \item{n}{Number of subjects.}
@@ -12,6 +12,8 @@ simple_randomization(n, groups, seed = NULL)
 \item{groups}{Character vector of treatment groups.}
 
 \item{seed}{Optional random seed.}
+
+\item{ratio}{Optional positive allocation weights for the groups.}
 }
 \value{
 A tibble containing subject IDs and assigned groups.
@@ -20,9 +22,5 @@ A tibble containing subject IDs and assigned groups.
 Generate a simple random allocation schedule.
 }
 \examples{
-simple_randomization(
-  n = 20,
-  groups = c("Control", "Treatment"),
-  seed = 123
-)
+simple_randomization(20, c("Control", "Treatment"), seed = 123)
 }

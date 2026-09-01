@@ -483,13 +483,15 @@ test_that("three treatment groups work", {
   
   x <- cluster_randomization(
     
-    clusters = LETTERS[1:30],
-    groups = c("A","B","C"),
+    clusters = paste0("Cluster_", 1:30),
+    groups = c("A", "B", "C"),
     seed = 123
     
   )
   
-  expect_equal(nrow(x),30)
+  expect_equal(nrow(x), 30)
+  expect_true(all(x$Cluster == paste0("Cluster_", 1:30)))
+  expect_true(all(x$Group %in% c("A", "B", "C")))
   
 })
 

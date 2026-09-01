@@ -1,72 +1,139 @@
-#===========================================================
-# Block Randomization
-#===========================================================
-
-#' Block Randomization
+#' Fixed Block Randomization
 #'
-#' Generates a randomized allocation schedule using fixed block randomization.
+#' Generate a balanced fixed-block randomization schedule.
 #'
-#' @param n Total number of subjects.
+#' @param n Number of subjects. It must be divisible by `block_size`.
 #' @param groups Character vector of treatment groups.
-#' @param block_size Size of each block. Must be a multiple of the
-#' number of treatment groups.
+#' @param block_size Size of each block.
 #' @param seed Optional random seed.
-#'
-#' @return A tibble with subject allocation.
+#' @param ratio Optional allocation weights.
+#' @return A tibble with subject, block, and treatment assignment.
 #'
 #' @examples
 #' block_randomization(
-#'   n = 24,
-#'   groups = c("Control","Treatment"),
-#'   block_size = 4,
+#'   24,
+#'   c("Control", "Treatment"),
+#'   4,
 #'   seed = 123
 #' )
 #'
 #' @export
-
-block_randomization <- function(n,
-                                groups,
-                                block_size = 4,
-                                seed = NULL){
+block_randomization <- function(
+    n,
+    groups,
+    block_size = 4,
+    seed = NULL,
+    ratio = NULL
+) {
   
-  if(!is.null(seed))
-    set.seed(seed)
+  n <- .validate_n(n)
+  groups <- .validate_groups(groups)
   
-  if(!is.numeric(n) || n <= 0)
-    stop("'n' must be a positive integer.", call. = FALSE)
-  
-  if(length(groups) < 2)
-    stop("At least two groups are required.", call. = FALSE)
-  
-  if(block_size %% length(groups) != 0)
-    stop("block_size must be divisible by the number of groups.",
-         call. = FALSE)
-  
-  if(n %% block_size != 0)
-    stop("n must be divisible by block_size.",
-         call. = FALSE)
-  
-  n_blocks <- n / block_size
-  
-  allocation <- character()
-  
-  per_group <- block_size / length(groups)
-  
-  for(i in seq_len(n_blocks)){
-    
-    block <- rep(groups, each = per_group)
-    
-    allocation <- c(
-      allocation,
-      sample(block)
+  if (
+    !is.numeric(block_size) ||
+    length(block_size) != 1L ||
+    is.na(block_size) ||
+    block_size <= 0 ||
+    block_size != as.integer(block_size)
+  ) {
+    stop(
+      "'block_size' must be a positive integer.",
+      call. = FALSE
     )
+  }
+  
+  block_size <- as.integer(block_size)
+  
+  if (n %% block_size != 0L) {
+    stop(
+      "'n' must be divisible by 'block_size'.",
+      call. = FALSE
+    )
+  }
+  
+  prob <- .validate_ratio(ratio, groups)
+  
+  # For equal allocation, block size must be divisible
+  # by the number of treatment groups.
+  if (is.null(ratio)) {
+    
+    if (block_size %% length(groups) != 0L) {
+      stop(
+        "'block_size' must be divisible by the number of groups.",
+        call. = FALSE
+      )
+    }
+    
+  } else {
+    
+    # A fixed block can represent a ratio only when
+    # the block size is an integer multiple of the
+    # smallest integer representation of that ratio.
+    
+    ratio_scaled <- prob / min(prob)
+    
+    ratio_scaled <- ratio_scaled / min(ratio_scaled)
+    
+    ratio_scaled <- round(ratio_scaled, 10)
+    
+    ratio_counts_base <- round(ratio_scaled)
+    
+    if (
+      any(abs(ratio_scaled - ratio_counts_base) > 1e-8)
+    ) {
+      stop(
+        "Allocation ratio cannot be represented by the requested block size.",
+        call. = FALSE
+      )
+    }
+    
+    ratio_unit <- sum(ratio_counts_base)
+    
+    if (block_size %% ratio_unit != 0L) {
+      stop(
+        "Allocation ratio cannot be represented by the requested block size.",
+        call. = FALSE
+      )
+    }
     
   }
   
-  tibble::tibble(
-    Subject = seq_len(n),
-    Block = rep(seq_len(n_blocks), each = block_size),
-    Group = allocation
-  )
+  counts <- .ratio_counts(block_size, prob)
   
+  if (any(counts < 1L)) {
+    stop(
+      "Each treatment group must receive at least one subject per block.",
+      call. = FALSE
+    )
+  }
+  
+  if (sum(counts) != block_size) {
+    stop(
+      "Allocation ratio cannot be represented by the requested block size.",
+      call. = FALSE
+    )
+  }
+  
+  .with_seed(seed, {
+    
+    blocks <- lapply(
+      seq_len(n / block_size),
+      function(i) {
+        sample(rep(groups, counts))
+      }
+    )
+    
+    tibble::tibble(
+      Subject = seq_len(n),
+      Block = rep(
+        seq_len(n / block_size),
+        each = block_size
+      ),
+      Group = unlist(
+        blocks,
+        use.names = FALSE
+      )
+    )
+    
+  })
 }

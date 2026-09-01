@@ -1,8 +1,31 @@
 ## ----setup, include=FALSE-----------------------------------------------------
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ExpDesignR)
+
+## -----------------------------------------------------------------------------
+simple_randomization(20, c("Control", "Treatment"), seed = 123)
+block_randomization(24, c("Control", "Treatment"), block_size = 4, seed = 123)
+variable_block_randomization(30, c("Control", "Treatment"), c(4, 6, 8), seed = 123)
+
+## -----------------------------------------------------------------------------
+dat <- data.frame(
+  ID = 1:40,
+  Sex = rep(c("Male", "Female"), 20),
+  Site = rep(c("A", "B"), each = 20)
+)
+stratified_randomization(dat, c("Sex", "Site"), c("Control", "Treatment"), seed = 123)
+stratified_block_randomization(dat, c("Sex", "Site"), c("Control", "Treatment"), 4, seed = 123)
+minimization_randomization(dat, c("Sex", "Site"), seed = 123)
+
+## -----------------------------------------------------------------------------
+completely_randomized_design(20, c("A", "B"), seed = 123)
+randomized_block_design(24, c("A", "B"), block_size = 4, seed = 123)
+factorial_design(list(Dose = c("Low", "High"), Diet = c("A", "B")), replicates = 2, seed = 123)
+latin_square(LETTERS[1:4], seed = 123)
+crossover_design(c("A", "B"), subjects = 8, periods = 2, seed = 123)
+
+## -----------------------------------------------------------------------------
+sch <- simple_randomization(40, c("Control", "Treatment"), seed = 123)
+allocation_summary(sch)
+plot_randomization(sch)
 

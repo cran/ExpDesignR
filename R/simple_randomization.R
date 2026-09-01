@@ -5,38 +5,16 @@
 #' @param n Number of subjects.
 #' @param groups Character vector of treatment groups.
 #' @param seed Optional random seed.
-#'
+#' @param ratio Optional positive allocation weights for the groups.
 #' @return A tibble containing subject IDs and assigned groups.
-#'
-#' @export
-#'
 #' @examples
-#' simple_randomization(
-#'   n = 20,
-#'   groups = c("Control", "Treatment"),
-#'   seed = 123
-#' )
-simple_randomization <- function(n,
-                                 groups,
-                                 seed = NULL) {
-  
-  if (!is.null(seed))
-    set.seed(seed)
-  
-  if (!is.numeric(n) || length(n) != 1 || n <= 0)
-    stop("'n' must be a positive integer.")
-  
-  if (length(groups) < 2)
-    stop("At least two groups are required.")
-  
-  allocation <- sample(
-    groups,
-    size = n,
-    replace = TRUE
-  )
-  
-  tibble::tibble(
-    Subject = seq_len(n),
-    Group = allocation
-  )
+#' simple_randomization(20, c("Control", "Treatment"), seed = 123)
+#' @export
+simple_randomization <- function(n, groups, seed = NULL, ratio = NULL) {
+  n <- .validate_n(n)
+  groups <- .validate_groups(groups)
+  prob <- .validate_ratio(ratio, groups)
+  .with_seed(seed, {
+    tibble::tibble(Subject = seq_len(n), Group = sample(groups, n, replace = TRUE, prob = prob))
+  })
 }

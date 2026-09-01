@@ -2,31 +2,32 @@
 % Please edit documentation in R/block_randomization.R
 \name{block_randomization}
 \alias{block_randomization}
-\title{Block Randomization}
+\title{Fixed Block Randomization}
 \usage{
-block_randomization(n, groups, block_size = 4, seed = NULL)
+block_randomization(n, groups, block_size = 4, seed = NULL, ratio = NULL)
 }
 \arguments{
-\item{n}{Total number of subjects.}
+\item{n}{Number of subjects. It must be divisible by `block_size`.}
 
 \item{groups}{Character vector of treatment groups.}
 
-\item{block_size}{Size of each block. Must be a multiple of the
-number of treatment groups.}
+\item{block_size}{Size of each block.}
 
 \item{seed}{Optional random seed.}
+
+\item{ratio}{Optional allocation weights.}
 }
 \value{
-A tibble with subject allocation.
+A tibble with subject, block, and treatment assignment.
 }
 \description{
-Generates a randomized allocation schedule using fixed block randomization.
+Generate a balanced fixed-block randomization schedule.
 }
 \examples{
 block_randomization(
-  n = 24,
-  groups = c("Control","Treatment"),
-  block_size = 4,
+  24,
+  c("Control", "Treatment"),
+  4,
   seed = 123
 )
 

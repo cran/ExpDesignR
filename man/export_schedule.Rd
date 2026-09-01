@@ -16,8 +16,8 @@ must be supplied explicitly.}
 }
 \value{
 Invisibly returns the input \code{schedule} unchanged.
-The function writes the schedule to the CSV file specified by
-\code{file}.
+  The function writes the schedule to the CSV file specified by
+  \code{file}.
 }
 \description{
 Export a randomization schedule to a CSV file.

@@ -1,55 +1,18 @@
-#===========================================================
-# Cluster Randomization
-#===========================================================
-
 #' Cluster Randomization
 #'
-#' Randomly assigns clusters (e.g., villages, farms, schools,
-#' hospitals) to treatment groups.
-#'
-#' @param clusters Character or numeric vector of cluster IDs.
-#' @param groups Character vector of treatment groups.
+#' Randomly assigns intact clusters to treatment groups.
+#' @param clusters Character or numeric vector of unique cluster IDs.
+#' @param groups Treatment groups.
 #' @param seed Optional random seed.
-#'
+#' @param ratio Optional allocation weights.
 #' @return A tibble containing cluster assignments.
-#'
 #' @examples
-#' cluster_randomization(
-#'   clusters = paste0("Farm_", 1:20),
-#'   groups = c("Control", "Treatment"),
-#'   seed = 123
-#' )
-#'
-#' @importFrom tibble tibble
+#' cluster_randomization(paste0("Farm_", 1:20), c("Control", "Treatment"), seed = 123)
 #' @export
-
-cluster_randomization <- function(clusters,
-                                  groups,
-                                  seed = NULL){
-  
-  if(!is.null(seed))
-    set.seed(seed)
-  
-  if(length(groups) < 2)
-    stop("At least two groups are required.",
-         call. = FALSE)
-  
-  if(length(clusters) < length(groups))
-    stop("Number of clusters must be at least the number of groups.",
-         call. = FALSE)
-  
-  clusters <- as.character(clusters)
-  
-  allocation <- sample(
-    rep(
-      groups,
-      length.out = length(clusters)
-    )
-  )
-  
-  tibble::tibble(
-    Cluster = clusters,
-    Group = allocation
-  )
-  
+cluster_randomization <- function(clusters, groups, seed = NULL, ratio = NULL) {
+  if (length(clusters) < 1L || anyNA(clusters)) stop("'clusters' must contain at least one non-missing ID.", call. = FALSE)
+  clusters <- as.character(clusters); if (anyDuplicated(clusters)) stop("Cluster IDs must be unique.", call. = FALSE)
+  groups <- .validate_groups(groups); prob <- .validate_ratio(ratio, groups)
+  if (length(clusters) < length(groups)) stop("Number of clusters must be at least the number of groups.", call. = FALSE)
+  .with_seed(seed, tibble::tibble(Cluster = clusters, Group = sample(groups, length(clusters), replace = TRUE, prob = prob)))
 }

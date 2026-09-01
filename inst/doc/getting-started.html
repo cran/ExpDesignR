@@ -39,6 +39,108 @@ ul.task-list{list-style: none;}
 
 
 
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -239,7 +341,198 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-
+<div id="simple-and-blocked-randomization" class="section level2">
+<h2>Simple and blocked randomization</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">simple_randomization</span>(<span class="dv">20</span>, <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 2</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt;    Subject Group    </span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;    </span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;  1       1 Treatment</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;  2       2 Control  </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;  3       3 Treatment</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  4       4 Control  </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;  5       5 Control  </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  6       6 Treatment</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;  7       7 Control  </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;  8       8 Control  </span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;  9       9 Control  </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; 10      10 Treatment</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; 11      11 Control  </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; 12      12 Treatment</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; 13      13 Control  </span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; 14      14 Control  </span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; 15      15 Treatment</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; 16      16 Control  </span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; 17      17 Treatment</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; 18      18 Treatment</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; 19      19 Treatment</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; 20      20 Control</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="fu">block_randomization</span>(<span class="dv">24</span>, <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="at">block_size =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; # A tibble: 24 × 3</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt;    Subject Block Group    </span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt;      &lt;int&gt; &lt;int&gt; &lt;chr&gt;    </span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt;  1       1     1 Treatment</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt;  2       2     1 Treatment</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt;  3       3     1 Control  </span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt;  4       4     1 Control  </span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt;  5       5     2 Treatment</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt;  6       6     2 Control  </span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt;  7       7     2 Treatment</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt;  8       8     2 Control  </span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt;  9       9     3 Treatment</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; 10      10     3 Control  </span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; # ℹ 14 more rows</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="fu">variable_block_randomization</span>(<span class="dv">30</span>, <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt; # A tibble: 30 × 4</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt;    Subject Block BlockSize Group    </span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt;      &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;chr&gt;    </span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt;  1       1     1         8 Control  </span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt;  2       2     1         8 Control  </span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt;  3       3     1         8 Treatment</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt;  4       4     1         8 Treatment</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt;  5       5     1         8 Control  </span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt;  6       6     1         8 Treatment</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt;  7       7     1         8 Treatment</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt;  8       8     1         8 Control  </span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt;  9       9     2         8 Control  </span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt; 10      10     2         8 Control  </span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt; # ℹ 20 more rows</span></span></code></pre></div>
+</div>
+<div id="stratified-and-adaptive-randomization" class="section level2">
+<h2>Stratified and adaptive randomization</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">Sex =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>), <span class="dv">20</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">Site =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">each =</span> <span class="dv">20</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">stratified_randomization</span>(dat, <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Site&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 5</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;       ID Sex    Site  Treatment Stratum  </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  1     1 Male   A     Control   Male::A  </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  2     2 Female A     Treatment Female::A</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  3     3 Male   A     Control   Male::A  </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  4     4 Female A     Control   Female::A</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  5     5 Male   A     Control   Male::A  </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;  6     6 Female A     Treatment Female::A</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;  7     7 Male   A     Control   Male::A  </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;  8     8 Female A     Control   Female::A</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;  9     9 Male   A     Control   Male::A  </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; 10    10 Female A     Control   Female::A</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="fu">stratified_block_randomization</span>(dat, <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Site&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 6</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;       ID Sex    Site  Treatment Stratum   Block</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;int&gt;</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt;  1     1 Male   A     Control   Male::A       7</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt;  2     2 Female A     Treatment Female::A     1</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt;  3     3 Male   A     Treatment Male::A       7</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt;  4     4 Female A     Treatment Female::A     1</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt;  5     5 Male   A     Treatment Male::A       7</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt;  6     6 Female A     Control   Female::A     1</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt;  7     7 Male   A     Control   Male::A       7</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt;  8     8 Female A     Control   Female::A     1</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt;  9     9 Male   A     Treatment Male::A       8</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#&gt; 10    10 Female A     Treatment Female::A     2</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="fu">minimization_randomization</span>(dat, <span class="fu">c</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Site&quot;</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 4</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt;       ID Sex    Site  Treatment</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    </span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co">#&gt;  1     1 Male   A     Control  </span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co">#&gt;  2     2 Female A     Treatment</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co">#&gt;  3     3 Male   A     Treatment</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="co">#&gt;  4     4 Female A     Control  </span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="co">#&gt;  5     5 Male   A     Control  </span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="co">#&gt;  6     6 Female A     Treatment</span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a><span class="co">#&gt;  7     7 Male   A     Control  </span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a><span class="co">#&gt;  8     8 Female A     Control  </span></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a><span class="co">#&gt;  9     9 Male   A     Control  </span></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a><span class="co">#&gt; 10    10 Female A     Control  </span></span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span></code></pre></div>
+</div>
+<div id="other-designs" class="section level2">
+<h2>Other designs</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">completely_randomized_design</span>(<span class="dv">20</span>, <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 20 × 2</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;     Unit Treatment</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  1     1 B        </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  2     2 A        </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  3     3 B        </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  4     4 A        </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  5     5 A        </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  6     6 B        </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  7     7 A        </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  8     8 A        </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  9     9 A        </span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 10    10 B        </span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 11    11 A        </span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; 12    12 B        </span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 13    13 A        </span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 14    14 A        </span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; 15    15 B        </span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; 16    16 A        </span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; 17    17 B        </span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; 18    18 B        </span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; 19    19 B        </span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; 20    20 A</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="fu">randomized_block_design</span>(<span class="dv">24</span>, <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">block_size =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; # A tibble: 24 × 3</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt;     Unit Block Treatment</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;    </span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt;  1     1     1 B        </span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt;  2     2     1 B        </span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt;  3     3     1 A        </span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt;  4     4     1 A        </span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt;  5     5     2 B        </span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt;  6     6     2 A        </span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt;  7     7     2 B        </span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt;  8     8     2 A        </span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt;  9     9     3 B        </span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; 10    10     3 A        </span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; # ℹ 14 more rows</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="fu">factorial_design</span>(<span class="fu">list</span>(<span class="at">Dose =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;High&quot;</span>), <span class="at">Diet =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)), <span class="at">replicates =</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt;     Unit Dose Diet</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; 4      1 High    B</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; 4.1    2 High    B</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; 2      3 High    A</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; 3.1    4  Low    B</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; 1.1    5  Low    A</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; 2.1    6 High    A</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; 3      7  Low    B</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; 1      8  Low    A</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="fu">latin_square</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt;       Col_1 Col_2 Col_3 Col_4</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; Row_1 &quot;C&quot;   &quot;D&quot;   &quot;A&quot;   &quot;B&quot;  </span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; Row_2 &quot;A&quot;   &quot;C&quot;   &quot;B&quot;   &quot;D&quot;  </span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; Row_3 &quot;B&quot;   &quot;A&quot;   &quot;D&quot;   &quot;C&quot;  </span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; Row_4 &quot;D&quot;   &quot;B&quot;   &quot;C&quot;   &quot;A&quot;</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="fu">crossover_design</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">subjects =</span> <span class="dv">8</span>, <span class="at">periods =</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; # A tibble: 8 × 3</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt;   Subject Period_1 Period_2</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;   </span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; 1       1 A        B       </span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; 2       2 A        B       </span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; 3       3 A        B       </span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; 4       4 B        A       </span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; 5       5 A        B       </span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; 6       6 B        A       </span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt; 7       7 B        A       </span></span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt; 8       8 B        A</span></span></code></pre></div>
+</div>
+<div id="allocation-utilities" class="section level2">
+<h2>Allocation utilities</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sch <span class="ot">&lt;-</span> <span class="fu">simple_randomization</span>(<span class="dv">40</span>, <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">allocation_summary</span>(sch)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;   Group     Count Percentage</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt;      &lt;dbl&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 1 Control      24         60</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 2 Treatment    16         40</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">plot_randomization</span>(sch)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
 
 
 

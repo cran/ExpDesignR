@@ -4,36 +4,26 @@
 \alias{stratified_randomization}
 \title{Stratified Randomization}
 \usage{
-stratified_randomization(data, strata, groups, seed = NULL)
+stratified_randomization(data, strata, groups, seed = NULL, ratio = NULL)
 }
 \arguments{
-\item{data}{A data frame containing the study subjects.}
+\item{data}{Study-subject data frame.}
 
-\item{strata}{Character vector specifying one or more stratification variables.}
+\item{strata}{Character vector of stratification columns.}
 
-\item{groups}{Character vector of treatment groups.}
+\item{groups}{Treatment groups.}
 
 \item{seed}{Optional random seed.}
+
+\item{ratio}{Optional allocation weights.}
 }
 \value{
-A tibble containing the original data with an additional
-treatment allocation column.
+The input data with a `Treatment` column.
 }
 \description{
-Generates a randomized allocation schedule within each stratum.
+Randomize independently within one or more strata.
 }
 \examples{
-df <- data.frame(
-  ID = 1:20,
-  Sex = rep(c("Male","Female"), each = 10),
-  Age = rep(c("Young","Adult"), times = 10)
-)
-
-stratified_randomization(
-  data = df,
-  strata = c("Sex"),
-  groups = c("Control","Treatment"),
-  seed = 123
-)
-
+dat <- data.frame(ID = 1:20, Sex = rep(c("M", "F"), each = 10))
+stratified_randomization(dat, "Sex", c("Control", "Treatment"), seed = 123)
 }
